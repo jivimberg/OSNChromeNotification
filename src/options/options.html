@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title>OSN Notifications Options</title>
+	<style type="text/css">
+		body {
+			text-align: center;
+			vertical-align: middle;
+		}
+		#status {
+			color: rgb(255, 0 , 0);
+		}
+	</style>
+</head>
+
+<body>
+
+Notification Display Duration (Secs):
+<select id="displayDuration">
+	<option value="5000" selected>5</option>
+	<option value="6000">6</option>
+ 	<option value="7000">7</option>
+ 	<option value="8000">8</option>
+ 	<option value="9000">9</option> 
+ 	<option value="10000">10</option> 
+</select>
+<br>
+<br>
+Display Notifications for:
+<br>
+<br>
+<input type="checkbox" id="postsNotifications" checked/> Posts<br>
+<input type="checkbox" id="likesNotifications" checked/> Likes<br>
+<br>
+<br>
+<br>
+<div id="status"></div>
+<button id="save">Save</button>
+<script src="options.js"></script>
+</body>
+</html>

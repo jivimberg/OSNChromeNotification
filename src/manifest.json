@@ -14,7 +14,6 @@
       "19": "img/osn_logo_19.png",
       "64": "img/osn_logo_64.png"
    },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCQPh+yEkjVAIVxI5zm5KrOawPwl8uGg/J6H7n56J4+U3M7vAjiZcHCgQk6WQIM/89iaJ3UJs4xjm54p2Bk6j0xzk1CCFxH02eg4WrzHrLfmFi/BwX+TeuMRG9XIUxYux55QnGAEF+MykeFwOpFNhpVA0zbYMBO0rKhu83Jetz4iQIDAQAB",
    "manifest_version": 2,
    "name": "OSN Notifications",
    "options_page": "options/options.html",

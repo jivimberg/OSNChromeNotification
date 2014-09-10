@@ -16,12 +16,12 @@ function showNotification(userID, titleTxt, bodyTxt) {
     sessionStorage.messageText = bodyTxt;
     var notification = window.webkitNotifications.createHTMLNotification('notifications/notification.html');*/
     notification.show();
-    //console.log("notifications time: "+localStorage.getItem("displayDuration"));  
-    setTimeout(function(){notification.cancel();}, ((localStorage.getItem("displayDuration") != null)?localStorage.getItem("displayDuration"):defaultNotificationDuration));  
+    //console.log("notifications time: "+localStorage.getItem("displayDuration"));
+    setTimeout(function(){notification.cancel();}, ((localStorage.getItem("displayDuration") != null)?localStorage.getItem("displayDuration"):defaultNotificationDuration));
   }
   else {
     console.log("Notifications are not supported for this Browser/OS version yet.");
-    
+
     var fileExists = function(url){
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
@@ -34,12 +34,12 @@ function showNotification(userID, titleTxt, bodyTxt) {
       }
       xhr.send();
     };
-    
+
     var imageUrl = osnURL+"/pictures/"+userID+"/profile";
     if(!fileExists(imageUrl)){
       imageUrl = chrome.extension.getURL("/img/osn_logo_128.png");
     }
-    
+
     chrome.notifications.create("",
       {
         iconUrl: imageUrl,
@@ -49,7 +49,7 @@ function showNotification(userID, titleTxt, bodyTxt) {
       }, function(id){}
     );
   }
-  
+
 }
 
 chrome.extension.onMessage.addListener(
@@ -80,13 +80,34 @@ chrome.extension.onMessage.addListener(
       //console.log("Username: "+dataJSON.CreatedByUserName);
       //console.log("Text: "+dataJSON.PlainText);
       //console.log("PlainText: "+dataJSON.PlainText);
-      if(createdUserID != loggedUserId){
-        if((localStorage.getItem("postsNotifications") != null)?((localStorage.getItem("postsNotifications") == "true")?true:false):true){
-          showNotification(createdUserID, createdByUserName+" posted in "+conversationName, plainText);  
+      //if(createdUserID != loggedUserId){
+        var isPostNotificationsSet = (localStorage.getItem("postsNotifications") != null);
+        var isPostNotificationEnabled = (localStorage.getItem("postsNotifications") == "true");
+        if(isPostNotificationsSet ? isPostNotificationEnabled : true){
+          var conversationId = dataJSON.ConversationID;
+          var url = osnURL + "/conversations/" + conversationId;
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", url, true);
+          xhr.setRequestHeader('Accept', 'application/json');
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status != 200) {
+              console.log("Couldn't find conversation " + conversationId);
+            } else if(xhr.readyState == 4 && xhr.status == 200){
+              if(xhr.responseText){
+                var conversationJSON = JSON.parse(xhr.responseText);
+                console.log("Conversation " + conversationId + " isMuted: " + conversationJSON.isMuted);
+                if(!conversationJSON.isMuted){
+                  showNotification(createdUserID, createdByUserName+" posted in "+conversationName, plainText);
+                }
+              } else {
+                console.log("Response was empty");
+              }
+            }
+          };
+          xhr.send();
         }
-        
-      }       
-    }    
+      //}
+    }
     if("likeAdded" == request[0].MethodName){
       //console.log("inside likeAdded ...");
       var dataJSON = request[0].Arguments[0];
@@ -97,8 +118,8 @@ chrome.extension.onMessage.addListener(
       //console.log("like added by:"+likeAddedByID);
       if((createdUserID == loggedUserId) && (likeAddedByID != loggedUserId)){
         if((localStorage.getItem("likesNotifications") != null)?((localStorage.getItem("likesNotifications") == "true")?true:false):true){
-          showNotification(likeAddedByID, " One person likes your post in "+conversationName, plainText);  
-        }                
+          showNotification(likeAddedByID, " One person likes your post in "+conversationName, plainText);
+        }
       }
     }
   }

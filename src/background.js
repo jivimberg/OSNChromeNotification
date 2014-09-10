@@ -80,7 +80,7 @@ chrome.extension.onMessage.addListener(
       //console.log("Username: "+dataJSON.CreatedByUserName);
       //console.log("Text: "+dataJSON.PlainText);
       //console.log("PlainText: "+dataJSON.PlainText);
-      //if(createdUserID != loggedUserId){
+      if(createdUserID != loggedUserId){
         var isPostNotificationsSet = (localStorage.getItem("postsNotifications") != null);
         var isPostNotificationEnabled = (localStorage.getItem("postsNotifications") == "true");
         if(isPostNotificationsSet ? isPostNotificationEnabled : true){
@@ -106,7 +106,7 @@ chrome.extension.onMessage.addListener(
           };
           xhr.send();
         }
-      //}
+      }
     }
     if("likeAdded" == request[0].MethodName){
       //console.log("inside likeAdded ...");

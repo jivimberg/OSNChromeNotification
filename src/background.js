@@ -20,34 +20,27 @@ function showNotification(userID, titleTxt, bodyTxt) {
     setTimeout(function(){notification.cancel();}, ((localStorage.getItem("displayDuration") != null)?localStorage.getItem("displayDuration"):defaultNotificationDuration));
   }
   else {
-    console.log("Notifications are not supported for this Browser/OS version yet.");
-
-    var fileExists = function(url){
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.onreadystatechange = function() {
-        if (xhr.status == 404) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-      xhr.send();
-    };
-
+    var xhr = new XMLHttpRequest();
     var imageUrl = osnURL+"/pictures/"+userID+"/profile";
-    if(!fileExists(imageUrl)){
-      imageUrl = chrome.extension.getURL("/img/osn_logo_128.png");
-    }
+    xhr.open("GET", imageUrl, true);
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState == 4){
+         if (xhr.status != 200) {
+           console.log("status code: " + xhr.status);
+           imageUrl = chrome.extension.getURL("/img/osn_logo_128.png");
+         }
 
-    chrome.notifications.create("",
-      {
-        iconUrl: imageUrl,
-        title: titleTxt,
-        message: bodyTxt,
-        type: "basic"
-      }, function(id){}
-    );
+        chrome.notifications.create("",
+          {
+            iconUrl: imageUrl,
+            title: titleTxt,
+            message: bodyTxt,
+            type: "basic"
+          }, function(id){}
+        );
+      }
+    };
+    xhr.send();
   }
 
 }

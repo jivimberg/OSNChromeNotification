@@ -3,7 +3,7 @@ var defaultNotificationDuration = 5000;
 var loggedUserId;
 var previousTabId=-1, previousData=[];
 
-function showNotification(userID, titleTxt, bodyTxt) {
+function showNotification(userID, titleTxt, bodyTxt, conversationID) {
   if (window.webkitNotifications) {
    console.log("Notifications are supported!");
      var notification = window.webkitNotifications.createNotification(
@@ -36,7 +36,13 @@ function showNotification(userID, titleTxt, bodyTxt) {
             title: titleTxt,
             message: bodyTxt,
             type: "basic"
-          }, function(id){}
+          }, function(id){
+            chrome.notifications.onClicked.addListener(function(notificationID){
+              if(notificationID == id){
+                chrome.tabs.create({url: 'https://osn-fusioncrm.oracle.com/osn/web/#conversation:id=' + conversationID + '&m=MESSAGES'});
+              }
+            });
+          }
         );
       }
     };
@@ -90,7 +96,7 @@ chrome.extension.onMessage.addListener(
                 var conversationJSON = JSON.parse(xhr.responseText);
                 console.log("Conversation " + conversationId + " isMuted: " + conversationJSON.isMuted);
                 if(!conversationJSON.isMuted){
-                  showNotification(createdUserID, createdByUserName+" posted in "+conversationName, plainText);
+                  showNotification(createdUserID, createdByUserName+" posted in "+conversationName, plainText, conversationId);
                 }
               } else {
                 console.log("Response was empty");
@@ -111,7 +117,7 @@ chrome.extension.onMessage.addListener(
       //console.log("like added by:"+likeAddedByID);
       if((createdUserID == loggedUserId) && (likeAddedByID != loggedUserId)){
         if((localStorage.getItem("likesNotifications") != null)?((localStorage.getItem("likesNotifications") == "true")?true:false):true){
-          showNotification(likeAddedByID, " One person likes your post in "+conversationName, plainText);
+          showNotification(likeAddedByID, " One person likes your post in "+conversationName, plainText, dataJSON.ConversationID);
         }
       }
     }

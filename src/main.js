@@ -8,7 +8,7 @@ Oracle.OSN.Connection.BackChannel.addListener(function(a,b){
 			//console.log("support"+window.webkitNotifications);
 			try{				
 				//window.postMessage({ type: "FROM_PAGE", text: "Hello from the webpage!" }, "*");
-				window.postMessage(b, "https://osn-fusioncrm.oracle.com");
+				window.postMessage(b, "https://socialnetwork.oracle.com");
 			}catch(err){
 				console.log("Exception Message: "+err.message);
 			}			

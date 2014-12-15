@@ -1,4 +1,4 @@
-var osnURL = "https://osn-fusioncrm.oracle.com/osn/social/api/v1";
+var osnURL = "https://socialnetwork.oracle.com/osn/social/api/v1";
 var defaultNotificationDuration = 5000;
 var loggedUserId;
 var previousTabId=-1, previousData=[];
@@ -39,7 +39,7 @@ function showNotification(userID, titleTxt, bodyTxt, conversationID) {
           }, function(id){
             chrome.notifications.onClicked.addListener(function(notificationID){
               if(notificationID == id){
-                chrome.tabs.create({url: 'https://osn-fusioncrm.oracle.com/osn/web/#conversation:id=' + conversationID + '&m=MESSAGES'});
+                chrome.tabs.create({url: 'https://socialnetwork.oracle.com/osn/web/#conversation:id=' + conversationID + '&m=MESSAGES'});
               }
             });
           }

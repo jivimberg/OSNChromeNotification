@@ -9,7 +9,7 @@ window.addEventListener("message", function(event) {
     // We only accept messages from ourselves
     if (event.source != window)
       return;
-    if (event.origin && (event.origin == "https://osn-fusioncrm.oracle.com")) {
+    if (event.origin && (event.origin == "https://socialnetwork.oracle.com")) {
        //console.log("Content script received: " + JSON.stringify(event.data));             
       chrome.extension.sendMessage(event.data);
     }

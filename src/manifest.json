@@ -4,7 +4,7 @@
    },
    "content_scripts": [ {
       "js": [ "content_script.js" ],
-      "matches": [ "https://osn-fusioncrm.oracle.com/*" ],
+      "matches": [ "https://socialnetwork.oracle.com/*" ],
       "run_at": "document_end"
    } ],
    "description": "This extension shows notifications to OSN users when ever a new post is received or like is added to user posts.",
@@ -19,5 +19,5 @@
    "options_page": "options/options.html",
    "permissions": [ "notifications" ],
    "version": "3",
-   "web_accessible_resources": [ "main.js", "img/osn_logo_64.png", "notification.html", "https://osn-fusioncrm.oracle.com/*", "https://social.oracle.com/*" ]
+   "web_accessible_resources": [ "main.js", "img/osn_logo_64.png", "notification.html", "https://socialnetwork.oracle.com/*", "https://social.oracle.com/*" ]
 }

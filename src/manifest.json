@@ -18,6 +18,6 @@
    "name": "OSN Notifications",
    "options_page": "options/options.html",
    "permissions": [ "notifications" ],
-   "version": "3",
+   "version": "4",
    "web_accessible_resources": [ "main.js", "img/osn_logo_64.png", "notification.html", "https://socialnetwork.oracle.com/*", "https://social.oracle.com/*" ]
 }
